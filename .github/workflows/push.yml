@@ -1,0 +1,19 @@
+name: Push image
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login Docker
+      run: docker login --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }}
+
+    - name: Build image
+      run: docker build -t boreddevco/alpine-elixir:1.11.2 .
+
+    - name: Publish image
+      run: docker push boreddevco/alpine-elixir:1.11.2
